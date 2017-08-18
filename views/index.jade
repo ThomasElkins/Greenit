@@ -1,5 +1,14 @@
 extends layout
 
 block content
+  form(method="post" action="/users/login")
+    input(type="text" name="username" placeholder="Username...")
+    input(type="password" name="password" placeholder="Password...")
+    input(type="submit" value="Log In")
+    br
+    br
+  form(method="get" action="/users/create")
+    input(type="submit" value="Create an account")
   h1= title
-  p Welcome to #{title}
+  form(method="get" action="/posts/create")
+    input(type="submit" value="Create a new post")

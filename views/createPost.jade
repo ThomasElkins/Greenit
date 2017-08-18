@@ -1,0 +1,13 @@
+extends layout
+
+block content
+
+  h1 Make a new Post
+  form(method="post" action="/posts/create")
+    input(type="text" name="title" maxlength="60" size="60" placeholder="Title your Post (60 characters max)")
+    br
+    br
+    textarea(class="createPostText" rows="25" columns="95" name="body" placeholder="Text...")
+    br
+    br
+    input(type="submit" value="Post!")

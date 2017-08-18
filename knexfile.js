@@ -5,7 +5,7 @@ module.exports = {
   development: {
     client: 'pg',
     connection: {
-      database: './dev.sqlite3',
+      database: 'reddit',
       host: '127.0.0.1'
     }
   },
