@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  h1 Welcome #{data["username"]}
+  
+  form(method="get" action="/users/logout")
+    input(type="submit" value="Log Out")

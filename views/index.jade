@@ -7,8 +7,18 @@ block content
     input(type="submit" value="Log In")
     br
     br
+  form(method="get" action="/users")
+    input(type="submit" value="User Home Page")
+    br
+    br
   form(method="get" action="/users/create")
     input(type="submit" value="Create an account")
   h1= title
   form(method="get" action="/posts/create")
     input(type="submit" value="Create a new post")
+    br
+    
+    - for posts in data
+      button
+        a(href="/posts/#{posts.id}") #{posts.title}
+        

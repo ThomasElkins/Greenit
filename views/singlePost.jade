@@ -1,0 +1,18 @@
+extends layout
+
+block content
+
+  h1= postData["title"]
+
+  h4= postData["body"]
+
+  form(method="post" action="/comments/#{postID}/new")
+    input(type="text" name="comment")
+    input(type="submit" value="Post a Comment")
+    br
+    
+  - for comments in data
+    ul
+      li= comments.commentBody
+        p - #{comments.username}
+    

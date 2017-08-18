@@ -3,9 +3,13 @@ var router = express.Router();
 var knex = require('../db/knex.js');
 var bcrypt = require('bcrypt');
 
-//Nothing on /users page
+//Redirects to individual user home page if they are logged in
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  if (req.signedCookies["user_id"]){
+    res.redirect(`/users/${req.signedCookies["user_id"]}`)
+  } else{
+    res.send('Please log in to continue');
+  }
 });
 // Render create user form
 router.get('/create', function(req, res, next){
@@ -33,6 +37,7 @@ router.post('/login', function(req, res, next){
       bcrypt.compare(req.body.password, user.rows[0].password, function(err, resp){
         if (resp) {
           res.cookie('name', req.body.username, {signed: true})
+          res.cookie('user_id', user.rows[0].id, {signed: true})
           res.redirect('/')
         }
         else res.send("Log in Failed")
@@ -41,7 +46,23 @@ router.post('/login', function(req, res, next){
       res.send("Username not found")
     })
 });
-
+// Log a user out
+router.get('/logout', function(req, res, next){
+  res.clearCookie('name', {signed: true})
+  res.clearCookie('user_id', {signed: true})
+  res.redirect('/')
+})
+//Individual user home page
+router.get('/:id', function(req, res, next){
+  if (req.signedCookies["user_id"] === req.params.id){
+    knex.raw(`select * from users where id = ${req.params.id}`)
+      .then(function(user){
+        res.render('singleUser', {data: user.rows[0]})
+      })
+    } else {
+    res.send("Unauthorized Access Attempt")
+  }
+})
 
 
 module.exports = router;
